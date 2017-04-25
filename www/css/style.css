@@ -1,0 +1,13 @@
+/* Empty. Add your own CSS if you like */
+input.ng-invalid {
+    background-color: pink;
+}
+input.ng-valid {
+    background-color: lightgreen;
+}
+form.ng-pristine {
+    background-color: lightblue;
+}
+form.ng-dirty {
+    background-color: pink;
+}
