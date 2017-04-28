@@ -9,7 +9,7 @@ angular.module('starter.services', [])
 			{
 				this.SetCredentials(usr,pwd);
 				$timeout(function(){
-				deferred.resolve('Welcome '+usr+'!');
+					deferred.resolve('Welcome '+usr+'!');
 				},2000);
 			}
 			else
@@ -28,25 +28,31 @@ angular.module('starter.services', [])
 		},
 		SetCredentials : function (username, password) {
             // var authdata = Base64.encode(username + ':' + password);
- 
+			
             $rootScope.globals = {
                 currentUser: {
                     username: username
-                }
-            };
- 
+				}
+			};
+			
             // $http.defaults.headers.common['Authorization'] = 'Basic ' + authdata; // jshint ignore:line
             $cookieStore.put('globals', $rootScope.globals);
-        },
- 
+		},
+		
         ClearCredentials : function () {
             $rootScope.globals = {};
             $cookieStore.remove('globals');
             // $http.defaults.headers.common.Authorization = 'Basic ';
-        },
+		},
 		isLogin: function(){
-			
-			return true;
+			var globals=$cookieStore.get('globals');
+			if(globals&&globals.currentUser)
+			{
+				$rootScope.globals=globals;
+				return true;
+			}
+			else
+			return false;
 		}
 	}
 });

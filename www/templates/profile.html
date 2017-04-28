@@ -1,0 +1,16 @@
+<ion-view view-title="Profile">
+  <ion-content>
+    <h3>Logged in as {{globals.currentUser.username}}</h3>
+      <ion-list>
+        <ion-item menu-close href="#/app/users" class="item item-icon-left">
+			<i class="icon ion-person"></i> Users
+        </ion-item>
+        <ion-item menu-close href="#/app/playlists" class="item item-icon-left">
+			<i class="icon ion-ios-people"></i> Groups
+        </ion-item>
+        <ion-item menu-close href="#/app/live" class="item item-icon-left">
+			<i class="icon ion-android-wifi"></i> Live
+        </ion-item>
+      </ion-list>
+  </ion-content>
+</ion-view>

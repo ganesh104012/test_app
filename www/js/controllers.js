@@ -35,15 +35,18 @@ angular.module('starter.controllers', [])
 	
 	// Perform the login action when the user submits the login form
 	$scope.doLogin = function() {
+		$scope.dataLoading=true;
 		LoginService.loginUser($scope.loginData.username, $scope.loginData.password)
 		.success(function(data) {
-            $state.go('app.search');
+			$scope.dataLoading=false;
+            $state.go('app.profile');
 		})
 		.error(function(data) {
             var alertPopup = $ionicPopup.alert({
                 title: 'Login failed!',
                 template: 'Please check your credentials!'
 			});
+			$scope.dataLoading=false;
 			
 		});
 			console.log('Doing login', $scope.loginData);
@@ -56,17 +59,22 @@ angular.module('starter.controllers', [])
 	};
 })
 
-.controller('PlaylistsCtrl', function($scope) {
-	$scope.playlists = [
-		{ title: 'Reggae', id: 1 },
-		{ title: 'Chill', id: 2 },
-		{ title: 'Dubstep', id: 3 },
-		{ title: 'Indie', id: 4 },
-		{ title: 'Rap', id: 5 },
-		{ title: 'Cowbell', id: 6 }
+.controller('UsersCtrl', function($scope) {
+	$scope.max=10;
+	$scope.notification={time:new Date()};
+	$scope.users = [
+		{ about: '',title: 'Reggae', id: 1 },
+		{ about: '',title: 'Chill', id: 2 },
+		{ about: '',title: 'Dubstep', id: 3 },
+		{ about: '',title: 'Indie', id: 4 },
+		{ about: '',title: 'Rap', id: 5 },
+		{ about: '',title: 'Cowbell', id: 6 }
 	];
 	})
 	
-	.controller('PlaylistCtrl', function($scope, $stateParams) {
+	.controller('UserCtrl', function($scope, $stateParams) {
+	})
+	.controller('ProfileCtrl', function($scope, $stateParams) {
+		// $scope.logged_email=$rootScope.globals.currentUser.username;
 	});
 		
