@@ -1,21 +1,27 @@
 <ion-view view-title="Users">
 	<ion-content>
-	<div class="card">
-  <div class="item item-divider item-icon-right">
-    Users <i class="icon ion-plus"></i>
-  </div>
-  <div class="item item-text-wrap">
-    {{users.length}} / {{max}} Slots vailable
-  </div>
-</div>
-	<div class="card">
-  <div class="item item-divider item-icon-right">
-    Schedule SMS Notification <i class="icon ion-plus"></i>
-  </div>
-  <div class="item item-text-wrap">
-    {{notification.time}}
-  </div>
-</div>
+		<div class="card">
+			<div class="item item-divider item-icon-right">
+				Users 
+				<a href="#" class=" item-right text-right" ng-click="$event.preventDefault();pickContactUsingNativeUI()">
+					<i class="icon ion-plus"></i>
+				</a>
+			</div>
+			<div class="item item-text-wrap">
+				{{users.length}} / {{max}} Slots vailable
+			</div>
+		</div>
+		<div class="card">
+			<div class="item item-divider item-icon-right">
+				Schedule SMS Notification
+				<a href="#" class=" item-right text-right" ng-click="$event.preventDefault();alert('Action not set');">
+					<i class="icon ion-plus"></i>
+				</a>
+			</div>
+			<div class="item item-text-wrap">
+				{{notification.time}}
+			</div>
+		</div>
 		<div class="list list-inset">
 			<label class="item item-input">
 				<i class="icon ion-search placeholder-icon"></i>
@@ -27,7 +33,7 @@
 				<!-- <img src="venkman.jpg">item-avatar -->
 				<i class="icon ion-person"></i>
 				<h2>{{user.title}}</h2>
-				<p>{{user.about}}</p>
+				<p>{{user.phone}}</p>
 				
 			</ion-item>
 		</ion-list>

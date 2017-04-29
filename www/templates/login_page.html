@@ -1,26 +1,31 @@
-<ion-view view-title="Browse">
- <ion-header-bar class="bar-positive">
-    <h1 class="title">Login</h1>
-  </ion-header-bar>
-  <ion-content>
-    <form name="LoginForm" ng-submit="doLogin()">
-      <div class="list">
-        <label class="item item-input">
-          <span class="input-label">Email</span>
-          <input type="email" name="username" ng-model="loginData.username" required>
-        </label>
-		  <span ng-if="LoginForm.username.$touched && LoginForm.username.$error.required">Email is required.</span>
-		  <span ng-if="LoginForm.username.$touched && LoginForm.username.$error.email">Email is not Valid.</span>
-        <label class="item item-input">
-          <span class="input-label">Password</span>
-          <input type="password" name="password" ng-model="loginData.password" required>
-        </label>
-		  <span ng-if="LoginForm.password.$touched && LoginForm.password.$invalid">Password is required.</span>
-        <label class="item">
-          <button class="button button-block button-positive" type="submit" ng-disabled="LoginForm.$invalid">Log in</button>
-        </label>
-		<img ng-if="dataLoading" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA=="/>
-      </div>
-    </form>
-  </ion-content>
+<ion-view view-title="Login">
+	<ion-header-bar class="bar-positive">
+		<h1 class="title">Login</h1>
+	</ion-header-bar>
+	<ion-content>
+		<form name="LoginForm" ng-submit="doLogin()">
+			<div class="list c-error">
+				<label class="item item-input item-stacked-label">
+					<span class="input-label">Email</span>
+					<input type="email" name="username" ng-model="loginData.username" ng-pattern="emailFormat" required>
+				</label>
+				<span class="c-validation" ng-if="LoginForm.username.$touched && LoginForm.username.$error.required">
+					<i class="icon ion-alert-circled"></i> Email is required.
+				</span>
+				<span class="c-validation" ng-if="LoginForm.username.$touched && LoginForm.username.$error.pattern">
+					<i class="icon ion-alert-circled"></i> Email is not Valid.
+				</span>
+				<label class="item item-input item-stacked-label">
+					<span class="input-label">Password</span>
+					<input type="password" name="password" ng-model="loginData.password" required>
+				</label>
+				<span class="c-validation" ng-if="LoginForm.password.$touched && LoginForm.password.$invalid">
+					<i class="icon ion-alert-circled"></i> Password is required.
+				</span>
+				<label class="item">
+					<button class="button button-block button-balanced" type="submit" ng-disabled="LoginForm.$invalid">Log in</button>
+				</label>
+			</div>
+		</form>
+	</ion-content>
 </ion-view>

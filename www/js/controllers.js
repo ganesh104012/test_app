@@ -11,70 +11,143 @@ angular.module('starter.controllers', [])
 
 })
 
-.controller('LoginCtrl', function($scope,LoginService,$ionicPopup,$ionicModal,$state, $timeout) {
+.controller('LoginCtrl', function($scope,LoginService,$ionicPopup,$ionicModal,$state, $timeout,$ionicLoading,$stateParams) {
+	// if($stateParams.isLogout)
 	LoginService.ClearCredentials();
 	// Form data for the login modal
+	 $scope.emailFormat = /^[a-z]+[a-z0-9._]+@[a-z]+\.[a-z.]{2,5}$/;
 	$scope.loginData = {};
 	
 	// Create the login modal that we will use later
 	// $ionicModal.fromTemplateUrl('templates/login.html', {
-		// scope: $scope
-		// }).then(function(modal) {
-		// $scope.modal = modal;
+	// scope: $scope
+	// }).then(function(modal) {
+	// $scope.modal = modal;
 	// });
 	
 	// Triggered in the login modal to close it
 	// $scope.closeLogin = function() {
-		// $scope.modal.hide();
+	// $scope.modal.hide();
 	// };
 	
 	// Open the login modal
 	// $scope.login = function() {
-		// $scope.modal.show();
+	// $scope.modal.show();
 	// };
 	
 	// Perform the login action when the user submits the login form
 	$scope.doLogin = function() {
-		$scope.dataLoading=true;
+		$ionicLoading.show({
+			template: 'Loading...',
+			duration: 3000
+		});
 		LoginService.loginUser($scope.loginData.username, $scope.loginData.password)
 		.success(function(data) {
-			$scope.dataLoading=false;
+			$ionicLoading.hide();
             $state.go('app.profile');
 		})
 		.error(function(data) {
+			$ionicLoading.hide();
             var alertPopup = $ionicPopup.alert({
                 title: 'Login failed!',
                 template: 'Please check your credentials!'
 			});
-			$scope.dataLoading=false;
 			
 		});
-			console.log('Doing login', $scope.loginData);
+		console.log('Doing login', $scope.loginData);
 		
 		// Simulate a login delay. Remove this and replace with your login
 		// code if using a login system
 		// $timeout(function() {
-			// $scope.closeLogin();
+		// $scope.closeLogin();
 		// }, 1000);
 	};
 })
 
-.controller('UsersCtrl', function($scope) {
+.controller('UsersCtrl', function($scope,$ionicPlatform,$cordovaContacts,$ionicPopup) {
 	$scope.max=10;
 	$scope.notification={time:new Date()};
 	$scope.users = [
-		{ about: '',title: 'Reggae', id: 1 },
-		{ about: '',title: 'Chill', id: 2 },
-		{ about: '',title: 'Dubstep', id: 3 },
-		{ about: '',title: 'Indie', id: 4 },
-		{ about: '',title: 'Rap', id: 5 },
-		{ about: '',title: 'Cowbell', id: 6 }
+		{ phone:'',about: '',title: 'Reggae', id: 1 },
+		{ phone:'',about: '',title: 'Chill', id: 2 },
+		{ phone:'',about: '',title: 'Dubstep', id: 3 }
 	];
-	})
-	
-	.controller('UserCtrl', function($scope, $stateParams) {
-	})
-	.controller('ProfileCtrl', function($scope, $stateParams) {
-		// $scope.logged_email=$rootScope.globals.currentUser.username;
+	$ionicPlatform.ready(function() {
+		/* [{
+			"id": "123",
+			"rawId": "123",
+			"displayName": "",
+			"name": {
+			"givenName": "",
+			"formatted": ""
+			},
+			"nickname": null,
+			"phoneNumbers": [
+			{
+			"id": "1711",
+			"pref": false,
+			"value": "972+54+7777777",
+			"type": "mobile"
+			}
+			],
+			"emails": [],
+			"addresses": [],
+			"ims": [],
+			"organizations": null,
+			"birthday": null,
+			"note": "",
+			"photos": null,
+			"categories": null,
+			"urls": null
+		}] */
+		if (window.cordova) {
+			$scope.addContact = function() {
+				/* $cordovaContacts.save($scope.contactForm).then(function(result) {
+					// Contact saved
+					}, function(err) {
+					// Contact error
+				}); */
+			};
+			
+			$scope.findContactsBySearchTerm = function (searchTerm) {
+				var opts = {                                           //search options
+					filter : searchTerm,                                 // 'Bob'
+					multiple: true,                                      // Yes, return any contact that matches criteria
+					fields:  [ 'displayName', 'name' ],                   // These are the fields to search for 'bob'.
+					desiredFields: ['id']    //return fields.
+				};
+				
+				if ($ionicPlatform.isAndroid()) {
+					opts.hasPhoneNumber = true;         //hasPhoneNumber only works for android.
+				};
+				
+				$cordovaContacts.find(opts).then(function (contactsFound) {
+					$scope.contacts = contactsFound;
+				});
+			};
+			
+			$scope.pickContactUsingNativeUI = function () {
+				$cordovaContacts.pickContact().then(function (contactPicked) {
+					$scope.contact = contactPicked;			
+					$scope.users.push({phone:contactPicked.phoneNumbers[0].value,about:'',title:contactPicked.displayName,id:($scope.users.length+1)});
+					$ionicPopup.alert({
+						title: 'Success',
+						template: 'New user created (' + contactPicked.displayName+') !'
+					});
+				},
+				function(err){
+					$ionicPopup.alert({
+						title: 'Failed !',
+						template: 'User Not Added (' + err+')'
+					});
+				});
+			};
+		}
 	});
-		
+})
+
+.controller('UserCtrl', function($scope, $stateParams) {
+})
+.controller('ProfileCtrl', function($scope, $stateParams) {
+	// $scope.logged_email=$rootScope.globals.currentUser.username;
+});
